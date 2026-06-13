@@ -24,15 +24,18 @@ import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from 'remix-themes'
 import type { Route } from './+types/root';
 import stylesheet from './app.css?url';
 import { GenericErrorLayout } from './components/general/generic-error-layout';
+import { BrandProvider } from './providers/brand';
 import { langCookie } from './storage/lang-cookie.server';
 import { themeSessionResolver } from './storage/theme-session.server';
+import type { BrandId } from './utils/branding/brand-config';
+import { buildBrandThemeCss, DEFAULT_BRAND_ID, getBrand, resolveBrandId } from './utils/branding/brand-config';
 import { appMetaTags } from './utils/meta';
 import { nonce } from './utils/nonce';
 
 export const links: Route.LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }];
 
-export function meta() {
-  return appMetaTags();
+export function meta({ data }: Route.MetaArgs) {
+  return appMetaTags(undefined, data?.brandId ?? DEFAULT_BRAND_ID);
 }
 
 /**
@@ -57,6 +60,10 @@ export async function loader({ context, request }: Route.LoaderArgs) {
 
   const disableAnimations = cookieHeader.includes('__disable_animations=true');
 
+  // Resolve the brand from the request Host so the app shell (logo, theme
+  // color, favicon, titles) matches the domain the visitor is on.
+  const brandId: BrandId = resolveBrandId(request.headers.get('host'));
+
   let organisations = null;
 
   if (session.isAuthenticated) {
@@ -68,6 +75,7 @@ export async function loader({ context, request }: Route.LoaderArgs) {
       lang,
       theme: getTheme(),
       disableAnimations,
+      brandId,
       // Surface the per-request CSP nonce produced by `securityHeadersMiddleware` so all
       // SSR-rendered <script>/<style> elements in this layout (and child
       // routes that need it) can carry the matching nonce attribute.
@@ -105,11 +113,15 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
     session,
     lang,
     disableAnimations,
+    brandId,
     nonce: cspNonce,
     ...data
   } = useLoaderData<typeof loader>() || {};
 
   const [theme] = useTheme();
+
+  const resolvedBrandId = brandId ?? DEFAULT_BRAND_ID;
+  const brand = getBrand(resolvedBrandId);
 
   // Recipient routes (signing pages) put `documenso-branded` on <body> so the
   // <style> block from `RecipientBranding` applies to BOTH the main tree and
@@ -122,6 +134,8 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
     <html translate="no" lang={lang} data-theme={theme} className={theme ?? ''}>
       <head>
         <meta charSet="utf-8" />
+        {/* Brand-specific (hostname-aware) favicon, with PNG fallbacks. */}
+        <link rel="icon" type="image/svg+xml" href={brand.faviconHref} />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -132,6 +146,9 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
         <Links nonce={nonce(cspNonce)} />
         <meta name="google" content="notranslate" />
         <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} nonce={nonce(cspNonce)} />
+
+        {/* Hostname-aware brand theme color, applied before first paint. */}
+        <style nonce={nonce(cspNonce)} dangerouslySetInnerHTML={{ __html: buildBrandThemeCss(resolvedBrandId) }} />
 
         {disableAnimations && (
           <style
@@ -159,21 +176,39 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
         )} */}
 
         <NuqsAdapter>
-          <SessionProvider initialSession={session}>
-            <TooltipProvider>
-              <TrpcProvider>
-                {children}
+          <BrandProvider brandId={resolvedBrandId}>
+            <SessionProvider initialSession={session}>
+              <TooltipProvider>
+                <TrpcProvider>
+                  {children}
 
-                <Toaster />
-              </TrpcProvider>
-            </TooltipProvider>
-          </SessionProvider>
+                  <Toaster />
+                </TrpcProvider>
+              </TooltipProvider>
+            </SessionProvider>
+          </BrandProvider>
         </NuqsAdapter>
 
         <script
           nonce={nonce(cspNonce)}
           dangerouslySetInnerHTML={{
             __html: `window.__ENV__ = ${JSON.stringify(publicEnv)}`,
+          }}
+        />
+
+        {/*
+          Hostname-aware <title> localizer. Per-route `meta()` exports call
+          `appMetaTags` which defaults to the primary brand, overriding the
+          brand-aware root meta. This rewrites the brand suffix client-side so
+          non-default hosts (e.g. Toba Tech) get a correct tab title across SPA
+          navigations. No-op on the default brand.
+        */}
+        <script
+          nonce={nonce(cspNonce)}
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var B=${JSON.stringify(brand.name)},D=${JSON.stringify(
+              getBrand(DEFAULT_BRAND_ID).name,
+            )};if(B===D)return;function f(){var t=document.title;if(!t)return;var n=t===D?B:t.split(" - "+D).join(" - "+B);if(n!==t)document.title=n;}f();var el=document.querySelector("title");if(el&&window.MutationObserver){new MutationObserver(f).observe(el,{childList:true});}})();`,
           }}
         />
 

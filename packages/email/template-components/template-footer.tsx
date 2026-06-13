@@ -32,8 +32,8 @@ export const TemplateFooter = ({ isDocument = true, reportUrl }: TemplateFooterP
         <Text className="my-4 text-base text-slate-400">
           <Trans>
             This document was sent using{' '}
-            <Link className="text-[#7AC455]" href="https://documen.so/mail-footer">
-              Documenso
+            <Link className="text-[#6D5EF6]" href="https://intelli-verse-x.ai">
+              Intelliverse
             </Link>
             .
           </Trans>
@@ -63,9 +63,11 @@ export const TemplateFooter = ({ isDocument = true, reportUrl }: TemplateFooterP
 
       {!branding.brandingEnabled && (
         <Text className="my-8 text-slate-400 text-sm">
-          Documenso, Inc.
+          Intelliverse
           <br />
-          2261 Market Street, #5211, San Francisco, CA 94114, USA
+          <Link href="https://intelli-verse-x.ai" target="_blank">
+            intelli-verse-x.ai
+          </Link>
         </Text>
       )}
     </Section>

@@ -1,13 +1,17 @@
 import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
 import { i18n, type MessageDescriptor } from '@lingui/core';
 
-export const appMetaTags = (title?: MessageDescriptor) => {
-  const description =
-    'Join Documenso, the open signing infrastructure, and get a 10x better signing experience. Pricing starts at $30/mo. forever! Sign in now and enjoy a faster, smarter, and more beautiful document signing process. Integrates with your favorite tools, customizable, and expandable. Support our mission and become a part of our open-source community.';
+import type { BrandId } from './branding/brand-config';
+import { DEFAULT_BRAND_ID, getBrand } from './branding/brand-config';
+
+export const appMetaTags = (title?: MessageDescriptor, brandId: BrandId = DEFAULT_BRAND_ID) => {
+  const brand = getBrand(brandId);
+  const description = brand.description;
+  const ogImage = `${NEXT_PUBLIC_WEBAPP_URL()}${brand.ogImageHref}`;
 
   return [
     {
-      title: title ? `${i18n._(title)} - Documenso` : 'Documenso',
+      title: title ? `${i18n._(title)} - ${brand.name}` : brand.name,
     },
     {
       name: 'description',
@@ -15,20 +19,19 @@ export const appMetaTags = (title?: MessageDescriptor) => {
     },
     {
       name: 'keywords',
-      content:
-        'Documenso, open source, DocuSign alternative, document signing, open signing infrastructure, open-source community, fast signing, beautiful signing, smart templates',
+      content: `${brand.companyName}, contracts, document signing, e-signature, agreements, templates`,
     },
     {
       name: 'author',
-      content: 'Documenso, Inc.',
+      content: brand.companyName,
     },
     {
       name: 'robots',
-      content: 'index, follow',
+      content: 'noindex, nofollow',
     },
     {
       property: 'og:title',
-      content: 'Documenso - The Open Source DocuSign Alternative',
+      content: brand.name,
     },
     {
       property: 'og:description',
@@ -36,7 +39,7 @@ export const appMetaTags = (title?: MessageDescriptor) => {
     },
     {
       property: 'og:image',
-      content: `${NEXT_PUBLIC_WEBAPP_URL()}/opengraph-image.jpg`,
+      content: ogImage,
     },
     {
       property: 'og:type',
@@ -47,16 +50,12 @@ export const appMetaTags = (title?: MessageDescriptor) => {
       content: 'summary_large_image',
     },
     {
-      name: 'twitter:site',
-      content: '@documenso',
-    },
-    {
       name: 'twitter:description',
       content: description,
     },
     {
       name: 'twitter:image',
-      content: `${NEXT_PUBLIC_WEBAPP_URL()}/opengraph-image.jpg`,
+      content: ogImage,
     },
   ];
 };

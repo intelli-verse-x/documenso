@@ -74,3 +74,12 @@ tmp/
 
 # opencode
 .opencode/package-lock.json
+
+# firecrawl research cache + generated contract PDFs
+.firecrawl/
+intelliverse/contracts/dist/
+
+# signing certificates / keys (never commit)
+*.p12
+*.pem
+*.key

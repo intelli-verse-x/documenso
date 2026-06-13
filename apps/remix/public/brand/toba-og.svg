@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#06201E" />
+  <path d="M150 80 L235 130 L235 230 L150 280 L65 230 L65 130 Z" stroke="#0D9488" stroke-width="10" fill="none" opacity="0.5" />
+  <path d="M150 130 L200 160 L200 210 L150 240 L100 210 L100 160 Z" fill="#0D9488" />
+  <text x="110" y="420" fill="#FFFFFF" font-family="Inter, system-ui, sans-serif" font-size="92" font-weight="800" letter-spacing="-2">Toba Tech</text>
+  <text x="114" y="490" fill="#5EEAD4" font-family="Inter, system-ui, sans-serif" font-size="40" font-weight="500">Contracts &amp; e-Signature</text>
+</svg>

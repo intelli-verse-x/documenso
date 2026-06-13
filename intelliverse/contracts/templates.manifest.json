@@ -1,0 +1,101 @@
+{
+  "$comment": "Maps each contract markdown to a Documenso template. orgUrl/teamUrl must match the orgs/teams created by scripts/setup-orgs.ts. To also publish a template under Toba Tech, copy the entry and set orgUrl=toba-tech, teamUrl=contracts. counterpartyRole is the label shown for the second signer.",
+  "templates": [
+    {
+      "file": "client/mutual-nda-us.md",
+      "title": "Mutual NDA (US)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "clients",
+      "counterpartyRole": "Counterparty",
+      "directLink": true
+    },
+    {
+      "file": "client/mutual-nda-in.md",
+      "title": "Mutual NDA (India)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "clients",
+      "counterpartyRole": "Counterparty",
+      "directLink": true
+    },
+    {
+      "file": "client/msa-us.md",
+      "title": "Master Services Agreement (US)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "clients",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/msa-in.md",
+      "title": "Master Services Agreement (India)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "clients",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/sow-us.md",
+      "title": "Statement of Work (US)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "clients",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/sow-in.md",
+      "title": "Statement of Work (India)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "clients",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/ip-assignment-piia-us.md",
+      "title": "IP Assignment + Confidentiality / PIIA (US)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "people",
+      "counterpartyRole": "Signer",
+      "directLink": false
+    },
+    {
+      "file": "client/ip-assignment-piia-in.md",
+      "title": "Confidentiality + IP Assignment (India)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "people",
+      "counterpartyRole": "Signer",
+      "directLink": false
+    },
+    {
+      "file": "people/employee-us.md",
+      "title": "Employment Offer & Agreement - At-Will (US)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "people",
+      "counterpartyRole": "Employee",
+      "directLink": false
+    },
+    {
+      "file": "people/contractor-us.md",
+      "title": "Independent Contractor Agreement (US)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "people",
+      "counterpartyRole": "Contractor",
+      "directLink": false
+    },
+    {
+      "file": "people/employee-in.md",
+      "title": "Employment Agreement (India)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "people",
+      "counterpartyRole": "Employee",
+      "directLink": false
+    },
+    {
+      "file": "people/contractor-in.md",
+      "title": "Consultancy / Contractor Agreement (India)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "people",
+      "counterpartyRole": "Consultant",
+      "directLink": false
+    }
+  ]
+}
