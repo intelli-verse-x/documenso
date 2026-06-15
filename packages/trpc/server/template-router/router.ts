@@ -18,6 +18,7 @@ import { deleteTemplate } from '@documenso/lib/server-only/template/delete-templ
 import { deleteTemplateDirectLink } from '@documenso/lib/server-only/template/delete-template-direct-link';
 import { findOrganisationTemplates } from '@documenso/lib/server-only/template/find-organisation-templates';
 import { findTemplates } from '@documenso/lib/server-only/template/find-templates';
+import { findUserTemplates } from '@documenso/lib/server-only/template/find-user-templates';
 import { getOrganisationTemplateById } from '@documenso/lib/server-only/template/get-organisation-template-by-id';
 import { getTemplateById } from '@documenso/lib/server-only/template/get-template-by-id';
 import { toggleTemplateDirectLink } from '@documenso/lib/server-only/template/toggle-template-direct-link';
@@ -51,6 +52,7 @@ import {
   ZFindOrganisationTemplatesRequestSchema,
   ZFindTemplatesRequestSchema,
   ZFindTemplatesResponseSchema,
+  ZFindUserTemplatesRequestSchema,
   ZGetOrganisationTemplateByIdRequestSchema,
   ZGetOrganisationTemplateByIdResponseSchema,
   ZGetTemplateByIdRequestSchema,
@@ -137,6 +139,53 @@ export const templateRouter = router({
       const result = await findOrganisationTemplates({
         userId: ctx.user.id,
         teamId,
+        ...input,
+      });
+
+      // Remapping for backwards compatibility.
+      return {
+        ...result,
+        data: result.data.map((envelope) => {
+          const legacyTemplateId = mapSecondaryIdToTemplateId(envelope.secondaryId);
+
+          return {
+            id: legacyTemplateId,
+            envelopeId: envelope.id,
+            type: envelope.templateType,
+            visibility: envelope.visibility,
+            externalId: envelope.externalId,
+            title: envelope.title,
+            userId: envelope.userId,
+            teamId: envelope.teamId,
+            authOptions: envelope.authOptions,
+            createdAt: envelope.createdAt,
+            updatedAt: envelope.updatedAt,
+            publicTitle: envelope.publicTitle,
+            publicDescription: envelope.publicDescription,
+            folderId: envelope.folderId,
+            useLegacyFieldInsertion: envelope.useLegacyFieldInsertion,
+            team: envelope.team,
+            fields: envelope.fields.map((field) => mapFieldToLegacyField(field, envelope)),
+            recipients: envelope.recipients.map((recipient) => mapRecipientToLegacyRecipient(recipient, envelope)),
+            templateMeta: envelope.documentMeta,
+            directLink: envelope.directLink,
+          };
+        }),
+      };
+    }),
+
+  /**
+   * @private
+   *
+   * Aggregates templates across every team the user belongs to. Used by the
+   * cross-team home dashboard, which has no single team context.
+   */
+  findUserTemplates: authenticatedProcedure
+    .input(ZFindUserTemplatesRequestSchema)
+    .output(ZFindTemplatesResponseSchema)
+    .query(async ({ input, ctx }) => {
+      const result = await findUserTemplates({
+        userId: ctx.user.id,
         ...input,
       });
 

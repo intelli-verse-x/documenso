@@ -10,12 +10,13 @@ import { Card, CardContent } from '@documenso/ui/primitives/card';
 import { ScrollArea, ScrollBar } from '@documenso/ui/primitives/scroll-area';
 import { msg } from '@lingui/core/macro';
 import { Plural, Trans, useLingui } from '@lingui/react/macro';
-import { Building2Icon, InboxIcon, SettingsIcon, UsersIcon } from 'lucide-react';
+import { Building2Icon, FileTextIcon, InboxIcon, SettingsIcon, UsersIcon } from 'lucide-react';
 import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 import { Link, redirect } from 'react-router';
 
 import { OrganisationInvitations } from '~/components/general/organisations/organisation-invitations';
+import { DashboardTemplatesTable } from '~/components/tables/dashboard-templates-table';
 import { InboxTable } from '~/components/tables/inbox-table';
 import { appMetaTags } from '~/utils/meta';
 
@@ -222,6 +223,22 @@ export default function DashboardPage() {
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
+          </div>
+        )}
+
+        {/* Templates Section */}
+        {teams.length >= 1 && (
+          <div className="mb-8">
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <FileTextIcon className="h-5 w-5 text-muted-foreground" />
+                <h2 className="font-semibold text-xl">
+                  <Trans>Templates</Trans>
+                </h2>
+              </div>
+            </div>
+
+            <DashboardTemplatesTable />
           </div>
         )}
 

@@ -284,6 +284,8 @@ export const ZFindTemplatesRequestSchema = ZFindSearchParamsSchema.extend({
 
 export const ZFindOrganisationTemplatesRequestSchema = ZFindSearchParamsSchema;
 
+export const ZFindUserTemplatesRequestSchema = ZFindSearchParamsSchema;
+
 export const ZFindTemplatesResponseSchema = ZFindResultResponse.extend({
   data: ZTemplateManySchema.array(),
 });
