@@ -27,6 +27,7 @@ Client-facing (US + India variants):
 | `client/mutual-nda-us.md` / `client/mutual-nda-in.md` | Mutual NDA |
 | `client/msa-us.md` / `client/msa-in.md` | Master Services Agreement |
 | `client/sow-us.md` / `client/sow-in.md` | Statement of Work (under an MSA) |
+| `client/project-proposal-us.md` / `client/project-proposal-in.md` | Project Proposal (pre-sales offer) |
 | `client/ip-assignment-piia-us.md` / `client/ip-assignment-piia-in.md` | IP Assignment + Confidentiality (PIIA) |
 
 People (jurisdiction-specific):
@@ -37,6 +38,30 @@ People (jurisdiction-specific):
 | `people/contractor-us.md` | US independent contractor agreement |
 | `people/employee-in.md` | India employment agreement |
 | `people/contractor-in.md` | India consultant/contractor agreement |
+
+## Adding a new template (end to end)
+
+Every template flows through the same pipeline for both companies:
+
+1. **Write the markdown** in `client/` (client-facing) or `people/` (HR), with
+   `{{Placeholder}}` values and a dedicated signature page (a
+   `<div style="page-break-before: always"></div>` before the `## Signature Page`).
+   Add US/India variants (`-us.md` / `-in.md`) to match the suite.
+2. **Register it** for both companies in `templates.manifest.json`
+   (`orgUrl` intelliverse + toba-tech; `teamUrl` `clients`/`contracts` for client
+   docs, `people` for HR docs) and in `packages/prisma/seed/setup-contract-templates.ts`
+   (`CLIENT_DOCS` or `PEOPLE_DOCS`).
+3. **Add sample values** for any new placeholders in
+   `intelliverse/scripts/build-sample-site.ts` (`BASE`, plus `INDIA` overrides).
+4. **Rebuild + publish** the shareable read-only site:
+   `npx tsx intelliverse/scripts/build-sample-site.ts` then
+   `aws s3 sync intelliverse/contracts/sample-dist s3://contract-templates.intelli-verse-x.ai`.
+5. **Load it live** (idempotent — only missing titles are created) by running the
+   seed against each database with `COMPANY=intelliverse|toba-tech` set (see the
+   root `intelliverse/README.md`).
+
+Templates are fully editable afterwards in the Documenso UI (content, fields,
+recipients) per team, so each company can customise its own copy.
 
 ## Conventions
 

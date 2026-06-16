@@ -64,7 +64,10 @@ const TENANTS: TenantSpec[] = [
       primaryForeground: '#ffffff',
       ring: '#0d9488',
     },
-    teams: [{ name: 'Contracts', url: 'contracts' }],
+    teams: [
+      { name: 'Contracts', url: 'contracts' },
+      { name: 'Employees & Contractors', url: 'people' },
+    ],
   },
 ];
 
@@ -124,7 +127,16 @@ const main = async () => {
 
   const claim = await buildClaim();
 
-  for (const tenant of TENANTS) {
+  // Each company now runs as its own deployment + database, so scope to a single
+  // tenant when COMPANY is set (e.g. COMPANY=toba-tech against the Toba DB).
+  const only = process.env.COMPANY?.toLowerCase();
+  const tenants = only ? TENANTS.filter((tenant) => tenant.url === only) : TENANTS;
+
+  if (only && tenants.length === 0) {
+    throw new Error(`COMPANY="${only}" did not match any tenant (${TENANTS.map((t) => t.url).join(', ')}).`);
+  }
+
+  for (const tenant of tenants) {
     let organisation = await prisma.organisation.findFirst({ where: { url: tenant.url } });
 
     if (!organisation) {

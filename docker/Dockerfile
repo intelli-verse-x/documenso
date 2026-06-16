@@ -72,6 +72,13 @@ COPY --from=builder /app/out/package-lock.json ./package-lock.json
 COPY --from=builder /app/lingui.config.ts ./lingui.config.ts
 COPY --from=builder /app/patches ./patches
 
+# Skip puppeteer's Chromium download. md-to-pdf (a build/tooling-only devDependency
+# used by the intelliverse contract scripts) depends on puppeteer, but the app never
+# launches a browser at runtime, so downloading Chromium here only slows the build
+# and risks failing on Alpine/musl.
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
 RUN npm ci
 
 # Then copy all the source code (as it changes more often)

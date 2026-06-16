@@ -58,12 +58,20 @@ const FIELD_LAYOUT = {
   },
 };
 
-const tokenForTeam = (teamUrl: string): string => {
-  const key = `DOCUMENSO_TOKEN_${teamUrl.toUpperCase().replace(/-/g, '_')}`;
-  const token = process.env[key] ?? process.env.DOCUMENSO_API_TOKEN;
+// Documenso API tokens are scoped to a SINGLE team. Since both orgs now have a
+// "people" team, resolve the token by org+team first so the two never collide,
+// then fall back to the team-only name (back-compat) and finally a global token.
+const envName = (value: string): string => value.toUpperCase().replace(/-/g, '_');
+
+const tokenForTeam = (orgUrl: string, teamUrl: string): string => {
+  const orgTeamKey = `DOCUMENSO_TOKEN_${envName(orgUrl)}_${envName(teamUrl)}`;
+  const teamKey = `DOCUMENSO_TOKEN_${envName(teamUrl)}`;
+  const token = process.env[orgTeamKey] ?? process.env[teamKey] ?? process.env.DOCUMENSO_API_TOKEN;
 
   if (!token) {
-    throw new Error(`No API token for team "${teamUrl}". Set ${key} or DOCUMENSO_API_TOKEN.`);
+    throw new Error(
+      `No API token for ${orgUrl}/${teamUrl}. Set ${orgTeamKey} (preferred), ${teamKey}, or DOCUMENSO_API_TOKEN.`,
+    );
   }
 
   return token;
@@ -121,14 +129,14 @@ const main = async () => {
   const manifest = JSON.parse(await readFile(join(CONTRACTS_DIR, 'templates.manifest.json'), 'utf8')) as Manifest;
 
   for (const entry of manifest.templates) {
-    const token = tokenForTeam(entry.teamUrl);
+    const token = tokenForTeam(entry.orgUrl, entry.teamUrl);
     const pdfPath = join(DIST_DIR, `${pdfSlug(entry.file)}.pdf`);
     const pdfBytes = await readFile(pdfPath);
 
     const pageCount = (await PDFDocument.load(pdfBytes)).getPageCount();
     const signaturePage = pageCount; // last page
 
-    console.log(`\n${entry.title} (team=${entry.teamUrl}, pages=${pageCount})`);
+    console.log(`\n${entry.title} (${entry.orgUrl}/${entry.teamUrl}, pages=${pageCount})`);
 
     const templateId = await createTemplate(token, entry, pdfBytes);
     console.log(`  created template id=${templateId}`);

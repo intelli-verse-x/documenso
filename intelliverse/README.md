@@ -109,7 +109,8 @@ This creates:
 
 - **Intelliverse** org with teams **Clients** (`clients`) and
   **Employees & Contractors** (`people`)
-- **Toba Tech** org with team **Contracts** (`contracts`)
+- **Toba Tech** org with teams **Contracts** (`contracts`) and
+  **Employees & Contractors** (`people`)
 
 and sets per-tenant signing/email branding (brand color, company details, brand
 URL). Upload each org's logo image once via Settings -> Branding.
@@ -117,11 +118,14 @@ URL). Upload each org's logo image once via Settings -> Branding.
 ## Step 6 - Create API tokens (per team)
 
 Documenso API tokens are team-scoped. In the app, for each team that will hold
-templates, create an API token (Settings -> API tokens):
+templates, create an API token (Settings -> API tokens). Both orgs now have a
+`people` team, so tokens are resolved by `DOCUMENSO_TOKEN_<ORG>_<TEAM>` (the
+loader falls back to `DOCUMENSO_TOKEN_<TEAM>` then `DOCUMENSO_API_TOKEN`):
 
-- Intelliverse / Clients -> `DOCUMENSO_TOKEN_CLIENTS`
-- Intelliverse / Employees & Contractors -> `DOCUMENSO_TOKEN_PEOPLE`
-- (optional) Toba Tech / Contracts -> `DOCUMENSO_TOKEN_CONTRACTS`
+- Intelliverse / Clients -> `DOCUMENSO_TOKEN_INTELLIVERSE_CLIENTS`
+- Intelliverse / Employees & Contractors -> `DOCUMENSO_TOKEN_INTELLIVERSE_PEOPLE`
+- Toba Tech / Contracts -> `DOCUMENSO_TOKEN_TOBA_TECH_CONTRACTS`
+- Toba Tech / Employees & Contractors -> `DOCUMENSO_TOKEN_TOBA_TECH_PEOPLE`
 
 ## Step 7 - Build the contract PDFs
 
@@ -136,16 +140,19 @@ PDFs are written to `intelliverse/contracts/dist/`.
 
 ```bash
 DOCUMENSO_API_URL=https://contracts.intelli-verse-x.ai \
-DOCUMENSO_TOKEN_CLIENTS=api_xxx \
-DOCUMENSO_TOKEN_PEOPLE=api_yyy \
+DOCUMENSO_TOKEN_INTELLIVERSE_CLIENTS=api_aaa \
+DOCUMENSO_TOKEN_INTELLIVERSE_PEOPLE=api_bbb \
+DOCUMENSO_TOKEN_TOBA_TECH_CONTRACTS=api_ccc \
+DOCUMENSO_TOKEN_TOBA_TECH_PEOPLE=api_ddd \
   npx tsx intelliverse/scripts/load-templates.ts
 ```
 
 Each template is created with two placeholder signers (Company + Counterparty)
 and Name/Signature/Date fields on the signature page. NDAs get a direct link
-(`/d/<token>`) for client self-serve. To also publish templates under Toba Tech,
-add entries with `orgUrl=toba-tech`, `teamUrl=contracts` in
-`contracts/templates.manifest.json` and set `DOCUMENSO_TOKEN_CONTRACTS`.
+(`/d/<token>`) for client self-serve. The manifest publishes the full set to
+both companies (Intelliverse `clients`/`people` and Toba Tech
+`contracts`/`people`); the loader is one deployment, so a single
+`DOCUMENSO_API_URL` works for every team token.
 
 ## Using a template
 

@@ -50,6 +50,13 @@ const BASE: SampleData = {
   OfferDate: 'March 3, 2026',
   StartDate: 'April 1, 2026',
   MSADate: 'January 15, 2026',
+  ProposalDate: 'February 18, 2026',
+
+  // Proposal
+  ProposalNumber: 'PROP-2026-031',
+  ProposalValidityDays: '30',
+  NextSteps:
+    'To proceed, sign below or reply to confirm; Provider will then issue a Statement of Work and a kickoff schedule.',
 
   // Company (Intelliverse - US default)
   CompanyLegalName: 'Intelliverse, Inc.',
@@ -208,8 +215,15 @@ const STYLESHEET = `
 const SAMPLE_BANNER =
   '<div class="sample-banner"><strong>SAMPLE / ILLUSTRATIVE DATA.</strong> Names, dates, fees, and parties below are fictional, inserted only to make the template easy to read. This is not an executed agreement.</div>\n\n';
 
+const ORG_NAMES: Record<string, string> = {
+  intelliverse: 'Intelliverse',
+  'toba-tech': 'Toba Tech',
+};
+
 const jurisdictionOf = (file: string): 'US' | 'India' => (file.endsWith('-in.md') ? 'India' : 'US');
 const categoryOf = (entry: ManifestEntry): 'People' | 'Client' => (entry.teamUrl === 'people' ? 'People' : 'Client');
+
+type Availability = { org: string; team: string };
 
 type BuiltTemplate = {
   entry: ManifestEntry;
@@ -217,6 +231,7 @@ type BuiltTemplate = {
   category: 'People' | 'Client';
   jurisdiction: 'US' | 'India';
   parties: string;
+  availability: Availability[];
 };
 
 const partiesSummary = (entry: ManifestEntry, data: SampleData): string => {
@@ -240,6 +255,14 @@ const escapeHtml = (value: string): string =>
 const renderIndexHtml = (built: BuiltTemplate[]): string => {
   const groups: ('People' | 'Client')[] = ['People', 'Client'];
 
+  const availabilityHtml = (b: BuiltTemplate): string =>
+    b.availability
+      .map(
+        (a) =>
+          `<span class="avail">${escapeHtml(ORG_NAMES[a.org] ?? a.org)} <span class="avail-team">/ ${escapeHtml(a.team)}</span></span>`,
+      )
+      .join('');
+
   const cardHtml = (b: BuiltTemplate): string => `
         <article class="card" data-category="${b.category}" data-jurisdiction="${b.jurisdiction}" data-title="${escapeHtml(b.entry.title.toLowerCase())}">
           <div class="card-head">
@@ -247,7 +270,8 @@ const renderIndexHtml = (built: BuiltTemplate[]): string => {
             <span class="badge badge-${b.jurisdiction === 'India' ? 'in' : 'us'}">${b.jurisdiction}</span>
           </div>
           <p class="parties">${escapeHtml(b.parties)}</p>
-          <p class="meta">${b.category} &middot; ${b.jurisdiction}</p>
+          <p class="meta">Available in:</p>
+          <div class="avails">${availabilityHtml(b)}</div>
           <div class="actions">
             <a class="btn btn-primary" href="${b.slug}.pdf" target="preview">Read</a>
             <a class="btn" href="${b.slug}.pdf" download>Download</a>
@@ -298,8 +322,11 @@ const renderIndexHtml = (built: BuiltTemplate[]): string => {
     .card:hover { box-shadow: 0 6px 20px rgba(15,23,42,0.08); border-color: #c7d2fe; }
     .card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .card-head h3 { margin: 0; font-size: 15px; }
-    .parties { margin: 6px 0 2px; font-size: 13px; color: var(--ink); }
-    .meta { margin: 0 0 10px; font-size: 12px; color: var(--muted); }
+    .parties { margin: 6px 0 8px; font-size: 13px; color: var(--ink); }
+    .meta { margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+    .avails { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+    .avail { font-size: 12px; padding: 2px 8px; border-radius: 6px; background: #eef2ff; color: #3730a3; border: 1px solid #e0e7ff; }
+    .avail-team { color: #6366f1; }
     .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
     .badge-us { background: #eff6ff; color: #1d4ed8; }
     .badge-in { background: #ecfdf5; color: #047857; }
@@ -377,9 +404,21 @@ const main = async () => {
 
   await mkdir(DIST_DIR, { recursive: true });
 
+  // A template's PDF content is identical across orgs, so render one PDF per
+  // unique file and collect the org/team locations it is published to.
+  const byFile = new Map<string, { entry: ManifestEntry; availability: Availability[] }>();
+  for (const entry of manifest.templates) {
+    const existing = byFile.get(entry.file);
+    if (existing) {
+      existing.availability.push({ org: entry.orgUrl, team: entry.teamUrl });
+    } else {
+      byFile.set(entry.file, { entry, availability: [{ org: entry.orgUrl, team: entry.teamUrl }] });
+    }
+  }
+
   const built: BuiltTemplate[] = [];
 
-  for (const entry of manifest.templates) {
+  for (const { entry, availability } of byFile.values()) {
     const data = overridesForFile(entry.file);
     const markdown = await readFile(join(CONTRACTS_DIR, entry.file), 'utf8');
     const { content, missing } = fillTemplate(markdown, data);
@@ -415,9 +454,12 @@ const main = async () => {
       category: categoryOf(entry),
       jurisdiction: jurisdictionOf(entry.file),
       parties: partiesSummary(entry, data),
+      availability,
     });
 
-    console.log(`Rendered ${entry.file} -> ${slug}.pdf`);
+    console.log(
+      `Rendered ${entry.file} -> ${slug}.pdf (in ${availability.map((a) => `${a.org}/${a.team}`).join(', ')})`,
+    );
   }
 
   await writeFile(join(DIST_DIR, 'index.html'), renderIndexHtml(built));

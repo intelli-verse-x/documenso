@@ -78,6 +78,7 @@ tmp/
 # firecrawl research cache + generated contract PDFs
 .firecrawl/
 intelliverse/contracts/dist/
+intelliverse/contracts/sample-dist/
 
 # signing certificates / keys (never commit)
 *.p12

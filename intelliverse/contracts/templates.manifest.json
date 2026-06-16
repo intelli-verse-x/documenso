@@ -1,5 +1,5 @@
 {
-  "$comment": "Maps each contract markdown to a Documenso template. orgUrl/teamUrl must match the orgs/teams created by scripts/setup-orgs.ts. To also publish a template under Toba Tech, copy the entry and set orgUrl=toba-tech, teamUrl=contracts. counterpartyRole is the label shown for the second signer.",
+  "$comment": "Maps each contract markdown to a Documenso template per organisation/team. orgUrl/teamUrl must match the orgs/teams created by scripts/setup-orgs.ts (Intelliverse: clients + people; Toba Tech: contracts + people). Client-facing docs live in Intelliverse 'clients' and Toba 'contracts'; people/HR docs live in each org's 'people' team. counterpartyRole is the label shown for the second signer. API tokens are team-scoped: see scripts/load-templates.ts for the DOCUMENSO_TOKEN_<ORG>_<TEAM> resolution.",
   "templates": [
     {
       "file": "client/mutual-nda-us.md",
@@ -50,6 +50,22 @@
       "directLink": false
     },
     {
+      "file": "client/project-proposal-us.md",
+      "title": "Project Proposal (US)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "clients",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/project-proposal-in.md",
+      "title": "Project Proposal (India)",
+      "orgUrl": "intelliverse",
+      "teamUrl": "clients",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
       "file": "client/ip-assignment-piia-us.md",
       "title": "IP Assignment + Confidentiality / PIIA (US)",
       "orgUrl": "intelliverse",
@@ -93,6 +109,118 @@
       "file": "people/contractor-in.md",
       "title": "Consultancy / Contractor Agreement (India)",
       "orgUrl": "intelliverse",
+      "teamUrl": "people",
+      "counterpartyRole": "Consultant",
+      "directLink": false
+    },
+    {
+      "file": "client/mutual-nda-us.md",
+      "title": "Mutual NDA (US)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "contracts",
+      "counterpartyRole": "Counterparty",
+      "directLink": true
+    },
+    {
+      "file": "client/mutual-nda-in.md",
+      "title": "Mutual NDA (India)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "contracts",
+      "counterpartyRole": "Counterparty",
+      "directLink": true
+    },
+    {
+      "file": "client/msa-us.md",
+      "title": "Master Services Agreement (US)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "contracts",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/msa-in.md",
+      "title": "Master Services Agreement (India)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "contracts",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/sow-us.md",
+      "title": "Statement of Work (US)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "contracts",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/sow-in.md",
+      "title": "Statement of Work (India)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "contracts",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/project-proposal-us.md",
+      "title": "Project Proposal (US)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "contracts",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/project-proposal-in.md",
+      "title": "Project Proposal (India)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "contracts",
+      "counterpartyRole": "Client",
+      "directLink": false
+    },
+    {
+      "file": "client/ip-assignment-piia-us.md",
+      "title": "IP Assignment + Confidentiality / PIIA (US)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "people",
+      "counterpartyRole": "Signer",
+      "directLink": false
+    },
+    {
+      "file": "client/ip-assignment-piia-in.md",
+      "title": "Confidentiality + IP Assignment (India)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "people",
+      "counterpartyRole": "Signer",
+      "directLink": false
+    },
+    {
+      "file": "people/employee-us.md",
+      "title": "Employment Offer & Agreement - At-Will (US)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "people",
+      "counterpartyRole": "Employee",
+      "directLink": false
+    },
+    {
+      "file": "people/contractor-us.md",
+      "title": "Independent Contractor Agreement (US)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "people",
+      "counterpartyRole": "Contractor",
+      "directLink": false
+    },
+    {
+      "file": "people/employee-in.md",
+      "title": "Employment Agreement (India)",
+      "orgUrl": "toba-tech",
+      "teamUrl": "people",
+      "counterpartyRole": "Employee",
+      "directLink": false
+    },
+    {
+      "file": "people/contractor-in.md",
+      "title": "Consultancy / Contractor Agreement (India)",
+      "orgUrl": "toba-tech",
       "teamUrl": "people",
       "counterpartyRole": "Consultant",
       "directLink": false
