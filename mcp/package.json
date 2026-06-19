@@ -1,0 +1,14 @@
+{
+  "name": "documenso-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "MCP server for Documenso e-signatures (Intelli-Verse engagement stack).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
