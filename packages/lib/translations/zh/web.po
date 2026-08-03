@@ -642,8 +642,8 @@ msgstr "{visibleRows, plural, other {正在显示 # 条结果。}}"
 #. placeholder {0}: envelope.title
 #: apps/remix/app/routes/_recipient+/sign.$token+/_index.tsx
 #: apps/remix/app/routes/_recipient+/sign.$token+/_index.tsx
-msgid "<0>\"{0}\"</0>is no longer available to sign"
-msgstr "<0>\"{0}\"</0>已不再可供签署"
+msgid "<0>\"{0}\"</0> is no longer available to sign"
+msgstr ""
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
 msgid "<0>{organisationName}</0> has requested to create an account on your behalf."
@@ -3396,6 +3396,7 @@ msgstr "创建你的账号，开始使用最先进的文档签署功能。开放
 #: apps/remix/app/components/general/template/template-page-view-information.tsx
 #: apps/remix/app/components/tables/admin-email-transports-table.tsx
 #: apps/remix/app/components/tables/admin-organisation-overview-table.tsx
+#: apps/remix/app/components/tables/dashboard-templates-table.tsx
 #: apps/remix/app/components/tables/documents-table.tsx
 #: apps/remix/app/components/tables/inbox-table.tsx
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
@@ -5778,6 +5779,11 @@ msgctxt "Subscription status"
 msgid "Free"
 msgstr "免费"
 
+#: apps/remix/app/components/tables/user-billing-organisations-table.tsx
+msgctxt "Subscription status"
+msgid "Free (Pending)"
+msgstr ""
+
 #: packages/lib/utils/fields.ts
 #: packages/ui/primitives/document-flow/types.ts
 msgid "Free Signature"
@@ -6146,6 +6152,7 @@ msgstr "正在识别输入字段"
 msgid "Identifying recipients"
 msgstr "正在识别收件人"
 
+#: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 msgid "If there is any issue with your subscription, please contact us at <0>{SUPPORT_EMAIL}</0>."
 msgstr "如果您的订阅出现任何问题，请通过 <0>{SUPPORT_EMAIL}</0> 联系我们。"
@@ -6780,6 +6787,7 @@ msgstr "管理并查看模板"
 msgid "Manage billing"
 msgstr "管理计费"
 
+#: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 #: apps/remix/app/components/tables/user-billing-organisations-table.tsx
 msgid "Manage Billing"
@@ -7973,6 +7981,11 @@ msgstr "逾期"
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 msgid "Payment overdue"
 msgstr "付款逾期"
+
+#: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
+#: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
+msgid "Payment required"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/envelope-download-dialog.tsx
 msgid "PDF Document"
@@ -9793,13 +9806,10 @@ msgstr "签署文档"
 #: apps/remix/app/components/general/document-signing/document-signing-mobile-widget.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v1.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v2.tsx
+#: apps/remix/app/routes/_recipient+/_layout.tsx
 #: packages/email/template-components/template-document-reminder.tsx
 msgid "Sign Document"
 msgstr "签署文档"
-
-#: apps/remix/app/routes/_recipient+/_layout.tsx
-msgid "Sign Document - Documenso"
-msgstr "签署文档 - Documenso"
 
 #: apps/remix/app/components/embed/multisign/multi-sign-document-list.tsx
 msgid "Sign Documents"
@@ -10448,6 +10458,7 @@ msgid "Target Organisation"
 msgstr "目标组织"
 
 #: apps/remix/app/components/tables/admin-user-teams-table.tsx
+#: apps/remix/app/components/tables/dashboard-templates-table.tsx
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 #: apps/remix/app/components/tables/organisation-teams-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
@@ -10727,6 +10738,7 @@ msgstr "模板已上传"
 #: apps/remix/app/components/general/app-command-menu.tsx
 #: apps/remix/app/components/general/app-nav-desktop.tsx
 #: apps/remix/app/components/general/app-nav-mobile.tsx
+#: apps/remix/app/routes/_authenticated+/dashboard.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.public-profile.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates._index.tsx
@@ -10738,6 +10750,10 @@ msgstr "模板"
 #: apps/remix/app/components/dialogs/envelopes-bulk-delete-dialog.tsx
 msgid "Templates deleted"
 msgstr "模板已删除"
+
+#: apps/remix/app/components/tables/dashboard-templates-table.tsx
+msgid "Templates from your teams will appear here"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/envelopes-bulk-delete-dialog.tsx
 msgid "Templates partially deleted"
@@ -11380,8 +11396,8 @@ msgid "This document was created using a direct link."
 msgstr "此文档是通过直接链接创建的。"
 
 #: packages/email/template-components/template-footer.tsx
-msgid "This document was sent using <0>Documenso</0>."
-msgstr "此文档是使用 <0>Documenso</0> 发送的。"
+msgid "This document was sent using <0>Intelliverse</0>."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/envelope-duplicate-dialog.tsx
 msgid "This document will be duplicated."
@@ -11460,6 +11476,10 @@ msgstr "无法删除此条目"
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "This link is invalid or has expired. Please contact your team to resend a verification."
 msgstr "此链接无效或已过期。请联系你的团队重新发送验证邮件。"
+
+#: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
+msgid "This organisation is awaiting payment. Complete checkout to unlock it."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/organisation.sso.confirmation.$token.tsx
 msgid "This organisation will have administrative control over your account. You can revoke this access later, but they will retain access to any data they've already collected."
@@ -11588,6 +11608,7 @@ msgstr "时区"
 #: apps/remix/app/components/dialogs/envelope-rename-dialog.tsx
 #: apps/remix/app/components/embed/authoring/configure-document-view.tsx
 #: apps/remix/app/components/general/template/template-page-view-documents-table.tsx
+#: apps/remix/app/components/tables/dashboard-templates-table.tsx
 #: apps/remix/app/components/tables/documents-table.tsx
 #: apps/remix/app/components/tables/inbox-table.tsx
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
@@ -11900,6 +11921,7 @@ msgstr "双重验证重新验证"
 
 #: apps/remix/app/components/tables/admin-document-recipient-item-table.tsx
 #: apps/remix/app/components/tables/admin-email-transports-table.tsx
+#: apps/remix/app/components/tables/dashboard-templates-table.tsx
 #: apps/remix/app/components/tables/templates-table.tsx
 msgid "Type"
 msgstr "类型"
@@ -14422,4 +14444,3 @@ msgstr "您的验证码："
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "your-domain.com another-domain.com"
 msgstr "your-domain.com another-domain.com"
-

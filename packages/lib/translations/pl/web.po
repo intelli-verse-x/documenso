@@ -642,8 +642,8 @@ msgstr "{visibleRows, plural, one {# wynik} few {# wyniki} many {# wyników} oth
 #. placeholder {0}: envelope.title
 #: apps/remix/app/routes/_recipient+/sign.$token+/_index.tsx
 #: apps/remix/app/routes/_recipient+/sign.$token+/_index.tsx
-msgid "<0>\"{0}\"</0>is no longer available to sign"
-msgstr "Dokument <0>„{0}”</0>nie jest już dostępny do podpisu"
+msgid "<0>\"{0}\"</0> is no longer available to sign"
+msgstr ""
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
 msgid "<0>{organisationName}</0> has requested to create an account on your behalf."
@@ -3396,6 +3396,7 @@ msgstr "Utwórz konto i zacznij korzystać z nowoczesnego podpisywania dokument�
 #: apps/remix/app/components/general/template/template-page-view-information.tsx
 #: apps/remix/app/components/tables/admin-email-transports-table.tsx
 #: apps/remix/app/components/tables/admin-organisation-overview-table.tsx
+#: apps/remix/app/components/tables/dashboard-templates-table.tsx
 #: apps/remix/app/components/tables/documents-table.tsx
 #: apps/remix/app/components/tables/inbox-table.tsx
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
@@ -5778,6 +5779,11 @@ msgctxt "Subscription status"
 msgid "Free"
 msgstr "Darmowa"
 
+#: apps/remix/app/components/tables/user-billing-organisations-table.tsx
+msgctxt "Subscription status"
+msgid "Free (Pending)"
+msgstr ""
+
 #: packages/lib/utils/fields.ts
 #: packages/ui/primitives/document-flow/types.ts
 msgid "Free Signature"
@@ -6146,6 +6152,7 @@ msgstr "Identyfikowanie pól formularzy"
 msgid "Identifying recipients"
 msgstr "Identyfikowanie odbiorców"
 
+#: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 msgid "If there is any issue with your subscription, please contact us at <0>{SUPPORT_EMAIL}</0>."
 msgstr "Jeśli masz problemy z subskrypcją, skontaktuj się z nami pod adresem <0>{SUPPORT_EMAIL}</0>."
@@ -6780,6 +6787,7 @@ msgstr "Zarządzanie szablonem"
 msgid "Manage billing"
 msgstr "Zarządzaj płatnościami"
 
+#: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 #: apps/remix/app/components/tables/user-billing-organisations-table.tsx
 msgid "Manage Billing"
@@ -7973,6 +7981,11 @@ msgstr "Przeterminowana"
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 msgid "Payment overdue"
 msgstr "Zaległa płatność"
+
+#: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
+#: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
+msgid "Payment required"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/envelope-download-dialog.tsx
 msgid "PDF Document"
@@ -9793,13 +9806,10 @@ msgstr "Podpisz dokument"
 #: apps/remix/app/components/general/document-signing/document-signing-mobile-widget.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v1.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v2.tsx
+#: apps/remix/app/routes/_recipient+/_layout.tsx
 #: packages/email/template-components/template-document-reminder.tsx
 msgid "Sign Document"
 msgstr "Podpisz dokument"
-
-#: apps/remix/app/routes/_recipient+/_layout.tsx
-msgid "Sign Document - Documenso"
-msgstr "Podpisz dokument – Documenso"
 
 #: apps/remix/app/components/embed/multisign/multi-sign-document-list.tsx
 msgid "Sign Documents"
@@ -10448,6 +10458,7 @@ msgid "Target Organisation"
 msgstr "Docelowa organizacja"
 
 #: apps/remix/app/components/tables/admin-user-teams-table.tsx
+#: apps/remix/app/components/tables/dashboard-templates-table.tsx
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 #: apps/remix/app/components/tables/organisation-teams-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
@@ -10727,6 +10738,7 @@ msgstr "Szablon został przesłany"
 #: apps/remix/app/components/general/app-command-menu.tsx
 #: apps/remix/app/components/general/app-nav-desktop.tsx
 #: apps/remix/app/components/general/app-nav-mobile.tsx
+#: apps/remix/app/routes/_authenticated+/dashboard.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.public-profile.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates._index.tsx
@@ -10738,6 +10750,10 @@ msgstr "Szablony"
 #: apps/remix/app/components/dialogs/envelopes-bulk-delete-dialog.tsx
 msgid "Templates deleted"
 msgstr "Szablony zostały usunięte"
+
+#: apps/remix/app/components/tables/dashboard-templates-table.tsx
+msgid "Templates from your teams will appear here"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/envelopes-bulk-delete-dialog.tsx
 msgid "Templates partially deleted"
@@ -11380,8 +11396,8 @@ msgid "This document was created using a direct link."
 msgstr "Dokument został utworzony za pomocą bezpośredniego linku."
 
 #: packages/email/template-components/template-footer.tsx
-msgid "This document was sent using <0>Documenso</0>."
-msgstr "Dokument został wysłany za pomocą <0>Documenso</0>."
+msgid "This document was sent using <0>Intelliverse</0>."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/envelope-duplicate-dialog.tsx
 msgid "This document will be duplicated."
@@ -11461,6 +11477,10 @@ msgstr "Nie można usunąć elementu"
 msgid "This link is invalid or has expired. Please contact your team to resend a verification."
 msgstr "Link jest nieprawidłowy lub wygasł. Skontaktuj się ze swoim zespołem, aby ponownie wysłać wiadomość weryfikacyjną."
 
+#: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
+msgid "This organisation is awaiting payment. Complete checkout to unlock it."
+msgstr ""
+
 #: apps/remix/app/routes/_unauthenticated+/organisation.sso.confirmation.$token.tsx
 msgid "This organisation will have administrative control over your account. You can revoke this access later, but they will retain access to any data they've already collected."
 msgstr "Organizacja będzie miała kontrolę administracyjną nad Twoim kontem. Możesz później cofnąć ten dostęp, ale nadal będą mieli dostęp do danych, które już zgromadzili."
@@ -11539,7 +11559,9 @@ msgstr "Zostanie wysłana do właściciela po zakończeniu dokumentu."
 
 #: packages/ui/components/document/document-email-checkboxes.tsx
 msgid "This will be sent to the document owner when a recipient's signing window has expired."
-msgstr "Zostanie wysłana do właściciela dokumentu, gdy minie czas na podpisanie przez odbiorcę\n"
+msgstr ""
+"Zostanie wysłana do właściciela dokumentu, gdy minie czas na podpisanie przez odbiorcę\n"
+""
 
 #: apps/remix/app/components/tables/organisation-email-domains-table.tsx
 msgid "This will check and sync the status of all email domains for this organisation"
@@ -11588,6 +11610,7 @@ msgstr "Strefa czasowa"
 #: apps/remix/app/components/dialogs/envelope-rename-dialog.tsx
 #: apps/remix/app/components/embed/authoring/configure-document-view.tsx
 #: apps/remix/app/components/general/template/template-page-view-documents-table.tsx
+#: apps/remix/app/components/tables/dashboard-templates-table.tsx
 #: apps/remix/app/components/tables/documents-table.tsx
 #: apps/remix/app/components/tables/inbox-table.tsx
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
@@ -11900,6 +11923,7 @@ msgstr "Weryfikacja dwuetapowa"
 
 #: apps/remix/app/components/tables/admin-document-recipient-item-table.tsx
 #: apps/remix/app/components/tables/admin-email-transports-table.tsx
+#: apps/remix/app/components/tables/dashboard-templates-table.tsx
 #: apps/remix/app/components/tables/templates-table.tsx
 msgid "Type"
 msgstr "Rodzaj"
@@ -14422,4 +14446,3 @@ msgstr "Twój kod weryfikacyjny:"
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "your-domain.com another-domain.com"
 msgstr "your-domain.com another-domain.com"
-

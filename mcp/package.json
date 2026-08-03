@@ -6,7 +6,7 @@
   "description": "MCP server for Documenso e-signatures (Intelli-Verse engagement stack).",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node init && node server.js"
   },
   "engines": {
     "node": ">=18"
