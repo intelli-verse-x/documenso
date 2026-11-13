@@ -111,6 +111,10 @@ This creates:
   **Employees & Contractors** (`people`)
 - **Toba Tech** org with teams **Contracts** (`contracts`) and
   **Employees & Contractors** (`people`)
+- **AniDeeBee** org with teams **Contracts** (`anideebee-contracts`) and
+  **Employees & Contractors** (`anideebee-people`) — use
+  `ADMIN_EMAIL=founder@anideebee.com COMPANY=anideebee` so the AniDeeBee
+  ops user owns that org (team URLs are globally unique)
 
 and sets per-tenant signing/email branding (brand color, company details, brand
 URL). Upload each org's logo image once via Settings -> Branding.
