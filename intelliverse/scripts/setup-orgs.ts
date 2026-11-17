@@ -1,7 +1,8 @@
 /**
- * Idempotent setup of the Intelliverse + Toba Tech organisations, their teams,
- * and per-tenant signing/email branding (logo colors, company details, brand
- * URL). Run AFTER the app is deployed and the first admin user exists.
+ * Idempotent setup of the Intelliverse + Toba Tech + AniDeeBee organisations,
+ * their teams, and per-tenant signing/email branding (logo colors, company
+ * details, brand URL). Run AFTER the app is deployed and the owning user
+ * exists.
  *
  * Per-tenant branding here is what clients see on signing pages and in emails
  * (org/team `OrganisationGlobalSettings`). The app-shell branding is handled
@@ -13,8 +14,12 @@
  * (NEXT_PUBLIC_FEATURE_BILLING_ENABLED=false) so branding is unlocked and team
  * limits are not enforced.
  *
+ * Team `url` values are globally unique in Documenso — AniDeeBee therefore uses
+ * `anideebee-contracts` / `anideebee-people` rather than `contracts` / `people`.
+ *
  * Usage (from repo root, with the app's DATABASE_URL in env):
  *   ADMIN_EMAIL=you@intelli-verse-x.ai npx tsx intelliverse/scripts/setup-orgs.ts
+ *   ADMIN_EMAIL=founder@anideebee.com COMPANY=anideebee npx tsx intelliverse/scripts/setup-orgs.ts
  */
 import { createOrganisation } from '@documenso/lib/server-only/organisation/create-organisation';
 import { getSubscriptionClaim } from '@documenso/lib/server-only/subscription/get-subscription-claim';
@@ -69,9 +74,24 @@ const TENANTS: TenantSpec[] = [
       { name: 'Employees & Contractors', url: 'people' },
     ],
   },
+  {
+    name: 'AniDeeBee',
+    url: 'anideebee',
+    brandingUrl: 'https://anideebee.com',
+    companyDetails: 'AniDeeBee LLC\nhttps://anideebee.com',
+    colors: {
+      primary: '#1B4D3E',
+      primaryForeground: '#ffffff',
+      ring: '#1B4D3E',
+    },
+    teams: [
+      { name: 'Contracts', url: 'anideebee-contracts' },
+      { name: 'Employees & Contractors', url: 'anideebee-people' },
+    ],
+  },
 ];
 
-// Branding feature flags enabled for both tenants so "Powered by" is hidden and
+// Branding feature flags enabled for all tenants so "Powered by" is hidden and
 // custom branding/white-label signing is available.
 const BRANDING_FLAGS: TClaimFlags = {
   allowCustomBranding: true,
